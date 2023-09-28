@@ -1,0 +1,207 @@
+[gd_scene load_steps=9 format=3 uid="uid://b1wsfuoefs5t2"]
+
+[ext_resource type="Script" path="res://map_configurator/map_configurator.gd" id="1_1313n"]
+[ext_resource type="MeshLibrary" uid="uid://bd0peupiof05e" path="res://all_symmetries/all_symmetries.tres" id="1_ox3xf"]
+[ext_resource type="Script" path="res://scripts/camera_arm_cylindrical.gd" id="3_1nekm"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fatnb"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_nk7cr"]
+sky_material = SubResource("ProceduralSkyMaterial_fatnb")
+
+[sub_resource type="Environment" id="Environment_c7mv0"]
+background_mode = 2
+sky = SubResource("Sky_nk7cr")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_po6r1"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.247059)
+
+[sub_resource type="SphereMesh" id="SphereMesh_e3own"]
+material = SubResource("StandardMaterial3D_po6r1")
+radius = 1.0
+height = 2.0
+
+[node name="MapConfigurator" type="Node3D"]
+script = ExtResource("1_1313n")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_c7mv0")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("1_ox3xf")
+cell_size = Vector3(2.65, 2.65, 2.65)
+cell_center_x = false
+cell_center_y = false
+cell_center_z = false
+data = {
+"cells": PackedInt32Array(0, 0, 0)
+}
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="CameraArm" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.10436, 0, 0)
+script = ExtResource("3_1nekm")
+
+[node name="Camera3D" type="Camera3D" parent="CameraArm"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 1, 2, 4)
+current = true
+
+[node name="Markers" type="Node3D" parent="."]
+
+[node name="Marker_000" type="MeshInstance3D" parent="Markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -1, -1)
+mesh = SubResource("SphereMesh_e3own")
+
+[node name="Marker_001" type="MeshInstance3D" parent="Markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -1, -1)
+mesh = SubResource("SphereMesh_e3own")
+
+[node name="Marker_010" type="MeshInstance3D" parent="Markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
+mesh = SubResource("SphereMesh_e3own")
+
+[node name="Marker_011" type="MeshInstance3D" parent="Markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -1)
+mesh = SubResource("SphereMesh_e3own")
+
+[node name="Marker_100" type="MeshInstance3D" parent="Markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -1, 1)
+mesh = SubResource("SphereMesh_e3own")
+
+[node name="Marker_101" type="MeshInstance3D" parent="Markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -1, 1)
+mesh = SubResource("SphereMesh_e3own")
+
+[node name="Marker_110" type="MeshInstance3D" parent="Markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 1)
+mesh = SubResource("SphereMesh_e3own")
+
+[node name="Marker_111" type="MeshInstance3D" parent="Markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1)
+mesh = SubResource("SphereMesh_e3own")
+
+[node name="GridContainer" type="GridContainer" parent="."]
+offset_right = 175.0
+offset_bottom = 126.0
+columns = 2
+
+[node name="IndexLabel" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Index"
+
+[node name="Index" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Test	"
+
+[node name="ModelLabel" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Model"
+
+[node name="Model" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Test	"
+
+[node name="OrientLabel" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Orientation"
+
+[node name="Orient" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Test	"
+
+[node name="InputLabel" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "
+I,O  case -/+
+R,F  mesh -/+
+T,G orientation -/+
+Drag to view
+
+Hint: Hold O"
+
+[node name="Labels" type="Node3D" parent="."]
+
+[node name="Label3D-1" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -1, -1)
+ignore_occlusion_culling = true
+billboard = 1
+no_depth_test = true
+text = "1"
+font_size = 64
+outline_size = 24
+
+[node name="Label3D-2" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -1, -1)
+ignore_occlusion_culling = true
+billboard = 1
+no_depth_test = true
+text = "2"
+font_size = 64
+outline_size = 24
+
+[node name="Label3D-4" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
+ignore_occlusion_culling = true
+billboard = 1
+no_depth_test = true
+text = "4"
+font_size = 64
+outline_size = 24
+
+[node name="Label3D-8" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -1)
+ignore_occlusion_culling = true
+billboard = 1
+no_depth_test = true
+text = "8"
+font_size = 64
+outline_size = 24
+
+[node name="Label3D-16" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -1, 1)
+ignore_occlusion_culling = true
+billboard = 1
+no_depth_test = true
+text = "16"
+font_size = 64
+outline_size = 24
+
+[node name="Label3D-32" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -1, 1)
+ignore_occlusion_culling = true
+billboard = 1
+no_depth_test = true
+text = "32"
+font_size = 64
+outline_size = 24
+
+[node name="Label3D-64" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 1)
+ignore_occlusion_culling = true
+billboard = 1
+no_depth_test = true
+text = "64"
+font_size = 64
+outline_size = 24
+
+[node name="Label3D-128" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1)
+ignore_occlusion_culling = true
+billboard = 1
+no_depth_test = true
+text = "128"
+font_size = 64
+outline_size = 24
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true

@@ -4,6 +4,8 @@ Toolkit and asset pipeline for automatically tiling 3D gridmap
 environments, from tile modeling through rough block-out to dynamic
 re-tiling.
 
+![Screenshot](autotile3d.png)
+
 ## Basic idea
 
 Same as in two dimensions, have users to decide the region of corners

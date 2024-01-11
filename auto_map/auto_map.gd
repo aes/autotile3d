@@ -42,7 +42,9 @@ func _redo() -> void:
 func _write_dest(new_map: Dictionary, outie: bool) -> void:
 	for v in new_map.keys():
 		var i = new_map.get(v, 0)
-		if map.get(v, 0) != i:
+		if i < 0:
+			set_cell_item(v, -1)
+		elif map.get(v, 0) != i:
 			if not outie:
 				i = 255 - i
 			var item_ori = table.get(i, [-1, -1])
@@ -60,9 +62,15 @@ func _read_source(source: GridMap) -> Dictionary:
 	var new_map = {}
 
 	for v in source.get_used_cells():
-		for offset_bits in hood:
-			var w = v - offset_bits[0]
-			new_map[w] = new_map.get(w, 0) + offset_bits[1]
+		var what = source.get_cell_item(v)
+		if what == 0:
+			for offset_bits in hood:
+				var w = v - offset_bits[0]
+				new_map[w] = new_map.get(w, 0) + offset_bits[1]
+		else:
+			for offset_bits in hood:
+				var w = v - offset_bits[0]
+				new_map[w] = -100
 
 	return new_map
 

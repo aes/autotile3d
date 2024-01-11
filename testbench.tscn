@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dqbnuunlkn32r"]
+[gd_scene load_steps=15 format=3 uid="uid://dqbnuunlkn32r"]
 
 [ext_resource type="MeshLibrary" uid="uid://bd0peupiof05e" path="res://all_symmetries/all_symmetries.tres" id="1_m0igy"]
 [ext_resource type="Script" path="res://scripts/camera_arm_cylindrical.gd" id="2_lj208"]
@@ -6,15 +6,8 @@
 [sub_resource type="GDScript" id="GDScript_8noxp"]
 script/source = "extends Node3D
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	$MeshInstance3D.mesh = $GridMap.mesh_library.get_item_mesh(0)
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	$MeshInstance3D.mesh = $GridMap.mesh_library.get_item_mesh(21)
 "
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_yhfi6"]
@@ -61,6 +54,77 @@ _surfaces = [{
 }]
 shadow_mesh = SubResource("ArrayMesh_qdpli")
 
+[sub_resource type="Animation" id="Animation_8v6vk"]
+resource_name = "Close"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Vector3(0, 0, 1.5708), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_l6u3q"]
+resource_name = "Open"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 1.5708)]
+}
+
+[sub_resource type="Animation" id="Animation_bjrvu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_n4fq1"]
+resource_name = "Slam"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(5.09823, 5.09823),
+"update": 0,
+"values": [Vector3(0, 0, 1.5708), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_k31mt"]
+_data = {
+"Close": SubResource("Animation_8v6vk"),
+"Open": SubResource("Animation_l6u3q"),
+"RESET": SubResource("Animation_bjrvu"),
+"Slam": SubResource("Animation_n4fq1")
+}
+
 [node name="Node3D" type="Node3D"]
 script = SubResource("GDScript_8noxp")
 
@@ -78,13 +142,22 @@ cell_center_x = false
 cell_center_y = false
 cell_center_z = false
 data = {
-"cells": PackedInt32Array(0, 65535, 1, 0, 0, 786433, 65536, 0, 524289, 65536, 65535, 262145)
+"cells": PackedInt32Array(0, 65535, 1, 0, 0, 786433, 65536, 0, 524289, 65536, 65535, 262145, 1, 65535, 1, 65535, 65535, 1, 1, 0, 786433, 65535, 0, 786433, 65537, 0, 524289, 131071, 0, 524289, 131071, 65535, 262145, 65537, 65535, 262145)
 }
-metadata/_editor_floor_ = Vector3(0, 0, 0)
+metadata/_editor_floor_ = Vector3(0, 1, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, -1.4)
+[node name="Hatch" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 2.6, -1.4)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Hatch"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, -1.2, 0)
 mesh = SubResource("ArrayMesh_gqptq")
+skeleton = NodePath("../..")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Hatch"]
+libraries = {
+"": SubResource("AnimationLibrary_k31mt")
+}
 
 [node name="CameraArm" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.10436, 0, 0)

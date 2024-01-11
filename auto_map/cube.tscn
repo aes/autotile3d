@@ -1,15 +1,30 @@
-[gd_scene load_steps=3 format=3 uid="uid://dgbnfbq4noav5"]
+[gd_scene load_steps=5 format=3 uid="uid://dgbnfbq4noav5"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ungmc"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_esu3p"]
 transparency = 1
 blend_mode = 1
 albedo_color = Color(0.560784, 0.811765, 1, 0.247059)
 
 [sub_resource type="BoxMesh" id="BoxMesh_wn6j1"]
-material = SubResource("StandardMaterial3D_ungmc")
+material = SubResource("StandardMaterial3D_esu3p")
+size = Vector3(2.7, 2.7, 2.7)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_chaap"]
+transparency = 1
+blend_mode = 1
+albedo_color = Color(1, 0.560784, 0.560784, 0.247059)
+
+[sub_resource type="BoxMesh" id="BoxMesh_o67rm"]
+material = SubResource("StandardMaterial3D_chaap")
+size = Vector3(2.7, 2.7, 2.7)
 
 [node name="Node3D" type="Node3D"]
 
-[node name="cube" type="MeshInstance3D" parent="."]
+[node name="blue cube" type="MeshInstance3D" parent="."]
 cast_shadow = 0
 mesh = SubResource("BoxMesh_wn6j1")
+
+[node name="red cube" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_o67rm")
